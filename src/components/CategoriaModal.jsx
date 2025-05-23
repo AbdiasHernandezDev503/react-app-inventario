@@ -14,10 +14,9 @@ const CategoriaModal = ({ isOpen, onClose, onSave, categoriaEdit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const nuevaCategoria = {
-      idCategoria: categoriaEdit ? categoriaEdit.idCategoria : Date.now(),
-      nombre
-    };
+    const nuevaCategoria = categoriaEdit 
+    ? { idCategoria: categoriaEdit.idCategoria, nombre }
+    : { nombre }
 
     onSave(nuevaCategoria);
     onClose();

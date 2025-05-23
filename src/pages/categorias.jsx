@@ -107,7 +107,7 @@ const Categorias = () => {
                 </button>
                 <button
                   className="btn-eliminar"
-                  onClick={() => eliminarCategoria(categoria.id)}
+                  onClick={() => eliminarCategoria(categoria.idCategoria)}
                 >
                   🗑️
                 </button>

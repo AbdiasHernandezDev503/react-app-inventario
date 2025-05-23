@@ -9,6 +9,7 @@ const Sidebar = () => {
         <li><Link to="/">🏠 Dashboard</Link></li>
         <li><Link to="/productos">📦 Productos</Link></li>
         <li><Link to="/sucursales">🏬 Sucursales</Link></li>
+        <li><Link to="/categorias">📂 Categorías</Link></li>
       </ul>
     </div>
   );
