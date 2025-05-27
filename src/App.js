@@ -4,6 +4,7 @@ import Dashboard from "./pages/dashboard";
 import Productos from "./pages/productos";
 import Sucursales from "./pages/sucursales";
 import Categorias from "./pages/categorias"
+import Usuarios from "./pages/usuarios";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/productos" element={<Productos />} />
           <Route path="/sucursales" element={<Sucursales />} />
           <Route path="/categorias" element={<Categorias />} />
+          <Route path="/usuarios" element={<Usuarios />} />
         </Routes>
         </div>
       </div>

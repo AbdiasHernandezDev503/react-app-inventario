@@ -10,6 +10,7 @@ const Sidebar = () => {
         <li><Link to="/productos">📦 Productos</Link></li>
         <li><Link to="/sucursales">🏬 Sucursales</Link></li>
         <li><Link to="/categorias">📂 Categorías</Link></li>
+        <li><Link to="/usuarios">👤 Usuarios</Link></li>
       </ul>
     </div>
   );
