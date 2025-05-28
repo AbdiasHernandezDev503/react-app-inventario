@@ -3,17 +3,20 @@ import '../styles/usuarios.css';
 
 const UsuarioFormModal = ({ isOpen, onClose, onSave, usuarioEdit }) => {
   const [nombre, setNombre] = useState('');
-  const [correo, setCorreo] = useState('');
+  const [apellido, setApellido] = useState('');
+  const [email, setEmail] = useState('');
   const [rol, setRol] = useState('');
 
   useEffect(() => {
     if (usuarioEdit) {
       setNombre(usuarioEdit.nombre);
-      setCorreo(usuarioEdit.correo);
+      setApellido(usuarioEdit.apellido);
+      setEmail(usuarioEdit.email);
       setRol(usuarioEdit.rol);
     } else {
       setNombre('');
-      setCorreo('');
+      setApellido('');
+      setEmail('');
       setRol('');
     }
   }, [usuarioEdit]);
@@ -23,12 +26,11 @@ const UsuarioFormModal = ({ isOpen, onClose, onSave, usuarioEdit }) => {
     const nuevoUsuario = {
       id: usuarioEdit ? usuarioEdit.id : Date.now(),
       nombre,
-      correo,
+      apellido,
+      email,
       rol,
     };
-
     onSave(nuevoUsuario);
-    onClose();
   };
 
   if (!isOpen) return null;
@@ -39,13 +41,36 @@ const UsuarioFormModal = ({ isOpen, onClose, onSave, usuarioEdit }) => {
         <h2>{usuarioEdit ? 'Editar Usuario' : 'Agregar Usuario'}</h2>
         <form onSubmit={handleSubmit}>
           <label>Nombre:</label>
-          <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
+          <input
+            type="text"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            required
+          />
 
-          <label>Correo:</label>
-          <input type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} required />
+          <label>Apellido:</label>
+          <input
+            type="text"
+            value={apellido}
+            onChange={(e) => setApellido(e.target.value)}
+            required
+          />
+
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
           <label>Rol:</label>
-          <input type="text" value={rol} onChange={(e) => setRol(e.target.value)} required />
+          <input
+            type="text"
+            value={rol}
+            onChange={(e) => setRol(e.target.value)}
+            required
+          />
 
           <div className="modal-buttons">
             <button type="submit" className="btn-guardar">Guardar</button>
