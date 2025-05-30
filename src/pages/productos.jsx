@@ -4,40 +4,34 @@ import ProductoFormModal from "../components/ProductoModal";
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);
-
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data) => setProductos(data))
-      .catch((err) => console.error("Error al cargar productos", err));
-  }, []);
-
   const [modalAbierto, setModalAbierto] = useState(false);
   const [productoEdit, setProductoEdit] = useState(null);
   const [busqueda, setBusqueda] = useState("");
   const [paginaActual, setPaginaActual] = useState(1);
   const productosPorPagina = 5;
 
-  const productosFiltrados = Array.isArray(productos)
-    ? productos.filter(
-        (p) =>
-          (p.title && p.title.toLowerCase().includes(busqueda.toLowerCase())) ||
-          (p.category &&
-            p.category.toLowerCase().includes(busqueda.toLowerCase()))
-      )
-    : [];
+  // Cargar productos desde la nueva API
+  useEffect(() => {
+    fetch("http://localhost:8090/api/productos")
+      .then((res) => res.json())
+      .then((data) => setProductos(data))
+      .catch((err) => console.error("Error al cargar productos", err));
+  }, []);
+
+  const productosFiltrados = productos.filter(
+    (p) =>
+      (p.nombre && p.nombre.toLowerCase().includes(busqueda.toLowerCase())) ||
+      (p.categoria &&
+        p.categoria.toLowerCase().includes(busqueda.toLowerCase()))
+  );
 
   const indiceInicio = (paginaActual - 1) * productosPorPagina;
   const indiceFin = indiceInicio + productosPorPagina;
-
   const productosPaginados = productosFiltrados.slice(indiceInicio, indiceFin);
-
-  const totalPaginas = Math.ceil(
-    productosFiltrados.length / productosPorPagina
-  );
+  const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina);
 
   const resaltarTexto = (texto, termino) => {
-    if (!termino) return texto;
+    if (!termino || !texto) return texto;
     const partes = texto.split(new RegExp(`(${termino})`, "gi"));
     return partes.map((parte, i) =>
       parte.toLowerCase() === termino.toLowerCase() ? (
@@ -60,14 +54,16 @@ const Productos = () => {
 
   const guardarProducto = (producto) => {
     if (productoEdit) {
-      setProductos(productos.map((p) => (p.id === producto.id ? producto : p)));
+      setProductos(productos.map((p) =>
+        p.idProducto === producto.idProducto ? producto : p
+      ));
     } else {
       setProductos([...productos, producto]);
     }
   };
 
-  const eliminarProducto = (id) => {
-    setProductos(productos.filter((p) => p.id !== id));
+  const eliminarProducto = (idProducto) => {
+    setProductos(productos.filter((p) => p.idProducto !== idProducto));
   };
 
   return (
@@ -93,17 +89,17 @@ const Productos = () => {
             <th>ID</th>
             <th>Nombre</th>
             <th>Categoría</th>
-            <th>Stock</th>
+            <th>Precio</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {productosPaginados.map((producto) => (
-            <tr key={producto.id}>
-              <td>{producto.id}</td>
-              <td>{resaltarTexto(producto.title, busqueda)}</td>
-              <td>{resaltarTexto(producto.category, busqueda)}</td>
-              <td>{producto.stock}</td>
+            <tr key={producto.idProducto}>
+              <td>{producto.idProducto}</td>
+              <td>{resaltarTexto(producto.nombre, busqueda)}</td>
+              <td>{resaltarTexto(producto.categoria || "Sin categoría", busqueda)}</td>
+              <td>${producto.precio.toFixed(2)}</td>
               <td>
                 <button
                   className="btn-editar"
@@ -113,7 +109,7 @@ const Productos = () => {
                 </button>
                 <button
                   className="btn-eliminar"
-                  onClick={() => eliminarProducto(producto.id)}
+                  onClick={() => eliminarProducto(producto.idProducto)}
                 >
                   🗑️
                 </button>
@@ -130,11 +126,9 @@ const Productos = () => {
         >
           ⬅️ Anterior
         </button>
-
         <span>
           Página {paginaActual} de {totalPaginas}
         </span>
-
         <button
           onClick={() => setPaginaActual((p) => Math.min(p + 1, totalPaginas))}
           disabled={paginaActual === totalPaginas}
