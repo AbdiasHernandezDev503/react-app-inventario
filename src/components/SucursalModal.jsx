@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/sucursales.css';
 
 const SucursalFormModal = ({ isOpen, onClose, onSave, sucursalEdit }) => {
   const [nombre, setNombre] = useState('');
@@ -20,8 +19,9 @@ const SucursalFormModal = ({ isOpen, onClose, onSave, sucursalEdit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const nuevaSucursal = {
-      id: sucursalEdit ? sucursalEdit.id : Date.now(),
+      idSucursal: sucursalEdit?.idSucursal, // solo se usa en edición
       nombre,
       direccion,
       telefono,
@@ -34,24 +34,62 @@ const SucursalFormModal = ({ isOpen, onClose, onSave, sucursalEdit }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>{sucursalEdit ? 'Editar Sucursal' : 'Agregar Sucursal'}</h2>
-        <form onSubmit={handleSubmit}>
-          <label>Nombre:</label>
-          <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
+    <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <form onSubmit={handleSubmit}>
+            <div className="modal-header">
+              <h5 className="modal-title">
+                {sucursalEdit ? 'Editar Sucursal' : 'Agregar Sucursal'}
+              </h5>
+              <button type="button" className="btn-close" onClick={onClose}></button>
+            </div>
 
-          <label>Dirección:</label>
-          <input type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} required />
+            <div className="modal-body">
+              <div className="mb-3">
+                <label className="form-label">Nombre:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={nombre}
+                  onChange={(e) => setNombre(e.target.value)}
+                  required
+                />
+              </div>
 
-          <label>Teléfono:</label>
-          <input type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} required />
+              <div className="mb-3">
+                <label className="form-label">Dirección:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={direccion}
+                  onChange={(e) => setDireccion(e.target.value)}
+                  required
+                />
+              </div>
 
-          <div className="modal-buttons">
-            <button type="submit" className="btn-guardar">Guardar</button>
-            <button type="button" className="btn-cancelar" onClick={onClose}>Cancelar</button>
-          </div>
-        </form>
+              <div className="mb-3">
+                <label className="form-label">Teléfono:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={telefono}
+                  onChange={(e) => setTelefono(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" onClick={onClose}>
+                Cancelar
+              </button>
+              <button type="submit" className="btn btn-success">
+                Guardar
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
