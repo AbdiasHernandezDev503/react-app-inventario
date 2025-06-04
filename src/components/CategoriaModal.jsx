@@ -5,12 +5,14 @@ const CategoriaModal = ({ isOpen, onClose, onSave, categoriaEdit }) => {
   const [nombre, setNombre] = useState('');
 
   useEffect(() => {
+    if(!isOpen) return;
+
     if (categoriaEdit) {
       setNombre(categoriaEdit.nombre);
     } else {
-      setNombre('');
+      setNombre("");
     }
-  }, [categoriaEdit]);
+  }, [categoriaEdit, isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

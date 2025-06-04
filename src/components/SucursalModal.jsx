@@ -6,6 +6,8 @@ const SucursalFormModal = ({ isOpen, onClose, onSave, sucursalEdit }) => {
   const [telefono, setTelefono] = useState('');
 
   useEffect(() => {
+    if(!isOpen) return;
+
     if (sucursalEdit) {
       setNombre(sucursalEdit.nombre);
       setDireccion(sucursalEdit.direccion);
@@ -15,7 +17,7 @@ const SucursalFormModal = ({ isOpen, onClose, onSave, sucursalEdit }) => {
       setDireccion('');
       setTelefono('');
     }
-  }, [sucursalEdit]);
+  }, [sucursalEdit, isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
