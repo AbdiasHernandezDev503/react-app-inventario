@@ -10,13 +10,14 @@ import Categorias from "./pages/categorias"
 import Usuarios from "./pages/usuarios";
 import Loign from "./pages/login"
 import Registro from "./pages/registro"
+import Inventario from "./pages/inventario"
 
 function App() {
   return (
     <Router>
       <div className="App" style={{ display: 'flex' }}>
       <Sidebar />
-      <div style={{ flex: 1, padding: '20px' }}>
+      <div className="flex-grow-1" style={{ marginLeft: "220px" }}>
         <Routes>
           <Route path="/" element={<Loign />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -25,6 +26,7 @@ function App() {
           <Route path="/categorias" element={<Categorias />} />
           <Route path="/usuarios" element={<Usuarios />} />
           <Route path="/registro" element={<Registro />} />
+          <Route path="/inventario" element={<Inventario />} />
         </Routes>
         </div>
       </div>

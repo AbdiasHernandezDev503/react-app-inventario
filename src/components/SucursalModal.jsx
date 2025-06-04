@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const SucursalFormModal = ({ isOpen, onClose, onSave, sucursalEdit }) => {
-  const [nombre, setNombre] = useState('');
-  const [direccion, setDireccion] = useState('');
-  const [telefono, setTelefono] = useState('');
+  const [nombre, setNombre] = useState("");
+  const [direccion, setDireccion] = useState("");
+  const [telefono, setTelefono] = useState("");
 
   useEffect(() => {
-    if(!isOpen) return;
+    if (!isOpen) return;
 
     if (sucursalEdit) {
       setNombre(sucursalEdit.nombre);
       setDireccion(sucursalEdit.direccion);
       setTelefono(sucursalEdit.telefono);
     } else {
-      setNombre('');
-      setDireccion('');
-      setTelefono('');
+      setNombre("");
+      setDireccion("");
+      setTelefono("");
     }
   }, [sucursalEdit, isOpen]);
 
@@ -23,7 +23,7 @@ const SucursalFormModal = ({ isOpen, onClose, onSave, sucursalEdit }) => {
     e.preventDefault();
 
     const nuevaSucursal = {
-      idSucursal: sucursalEdit?.idSucursal, // solo se usa en edición
+      idSucursal: sucursalEdit?.idSucursal,
       nombre,
       direccion,
       telefono,
@@ -36,15 +36,23 @@ const SucursalFormModal = ({ isOpen, onClose, onSave, sucursalEdit }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+    <div
+      className="modal fade show d-block"
+      tabIndex="-1"
+      style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+    >
       <div className="modal-dialog">
         <div className="modal-content">
           <form onSubmit={handleSubmit}>
             <div className="modal-header">
               <h5 className="modal-title">
-                {sucursalEdit ? 'Editar Sucursal' : 'Agregar Sucursal'}
+                {sucursalEdit ? "Editar Sucursal" : "Agregar Sucursal"}
               </h5>
-              <button type="button" className="btn-close" onClick={onClose}></button>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={onClose}
+              ></button>
             </div>
 
             <div className="modal-body">
@@ -83,7 +91,11 @@ const SucursalFormModal = ({ isOpen, onClose, onSave, sucursalEdit }) => {
             </div>
 
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={onClose}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={onClose}
+              >
                 Cancelar
               </button>
               <button type="submit" className="btn btn-success">
