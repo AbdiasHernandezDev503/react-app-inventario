@@ -3,19 +3,33 @@ import { useNavigate, Link } from "react-router-dom";
 import "../styles/login.css";
 
 const Login = () => {
-  const [nombre, setNombre] = useState("");
-  const [contrasena, setContrasena] = useState("");
+  const [email, setEmail] = useState("");
+  const [contraseña, setContraseña] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Validación básica de ejemplo
-    if (nombre === "admin" && contrasena === "admin") {
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, contraseña }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Credenciales inválidas");
+      }
+
+      const data = await response.text(); // en tu backend devuelve solo un mensaje string
+      console.log("Login exitoso:", data);
+
       navigate("/dashboard");
-    } else {
-      setError("Nombre o contraseña incorrectos.");
+    } catch (err) {
+      setError("Correo o contraseña incorrectos.");
     }
   };
 
@@ -26,27 +40,25 @@ const Login = () => {
 
         {error && <div className="login-error">{error}</div>}
 
-        <label htmlFor="nombre">Nombre</label>
+        <label htmlFor="email">Correo</label>
         <input
-          type="text"
-          id="nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
 
-        <label htmlFor="contrasena">Contraseña</label>
+        <label htmlFor="contraseña">Contraseña</label>
         <input
           type="password"
-          id="contrasena"
-          value={contrasena}
-          onChange={(e) => setContrasena(e.target.value)}
+          id="contraseña"
+          value={contraseña}
+          onChange={(e) => setContraseña(e.target.value)}
           required
         />
 
-        <button type="submit" className="btn-login">
-          Entrar
-        </button>
+        <button type="submit" className="btn-login">Entrar</button>
 
         <p className="mt-3 text-center">
           ¿No tienes una cuenta?{" "}
